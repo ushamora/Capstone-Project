@@ -1,0 +1,51 @@
+package com.wipro.archana.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wipro.usha.dto.AuditDTO;
+import com.wipro.usha.entities.Audit;
+import com.wipro.usha.repository.AuditRepository;
+
+@Service
+public class AuditServiceImpl implements AuditService {
+	
+	@Autowired
+	private AuditRepository auditRepository;
+
+	@Override
+	public AuditDTO createAudit(AuditDTO auditDTO) {
+		System.out.println("Received AuditDTO: " + auditDTO);
+		Audit audit = Audit.builder()
+                .action("Processed Payment")
+                .description("Payment Transfered")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        Audit saved = auditRepository.save(audit);
+        System.out.println(saved);
+        return toDTO(saved);
+    }
+
+	@Override
+	public AuditDTO getAuditById(Long id) {
+		Audit audit = auditRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Audit not found"));
+        return toDTO(audit);
+    }
+
+    private AuditDTO toDTO(Audit audit) {
+        return AuditDTO.builder()
+                .id(audit.getId())
+                .action(audit.getAction())
+                .description(audit.getDescription())
+                .timestamp(audit.getTimestamp())
+                .build();
+    }
+
+	
+	
+
+}

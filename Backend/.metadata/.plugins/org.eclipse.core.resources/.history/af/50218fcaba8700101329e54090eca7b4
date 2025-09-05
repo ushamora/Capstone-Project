@@ -1,0 +1,13 @@
+package com.wipro.archana.service;
+
+import com.wipro.archana.dto.FeedBackDTO;
+
+public interface FeedBackService {
+
+	FeedBackDTO submitFeedback(FeedBackDTO feedbackDTO);
+
+	FeedBackDTO getFeedbackById(Long id);
+
+	FeedBackDTO updateStatus(Long id, String status);
+
+}

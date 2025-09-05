@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.surya.kafka&apos; to &apos;com.usha.kafka&apos;&#x0D;&#x0A;- Original project: &apos;Email-Service&apos;&#x0D;&#x0A;- Original element: &apos;Email-Service/src/test/java/com.surya.kafka&apos;&#x0D;&#x0A;- Renamed element: &apos;Email-Service/src/test/java/com.usha.kafka&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings&#x0D;&#x0A;- Rename subpackages of the package" description="Rename package &apos;com.surya.kafka&apos;" flags="589830" hierarchical="true" id="org.eclipse.jdt.ui.rename.package" input="/src\/test\/java=/optional=/true=/=/maven.pomderived=/true=/=/test=/true=/&lt;com.surya.kafka" name="com.usha.kafka" qualified="false" references="true" stamp="1757045011691" textual="false" version="1.0"/>
+</session>

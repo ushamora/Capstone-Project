@@ -1,0 +1,11 @@
+package com.wipro.archana.service;
+
+import com.wipro.archana.dto.CustomerDTO;
+
+public interface CustomerService {
+
+	CustomerDTO createCustomer(CustomerDTO customerDto);
+
+	CustomerDTO getCustomerById(Long id);
+
+}

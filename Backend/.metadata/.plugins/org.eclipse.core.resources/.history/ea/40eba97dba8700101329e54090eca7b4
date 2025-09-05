@@ -1,0 +1,11 @@
+package com.wipro.archana.service;
+
+import com.wipro.usha.dto.AuditDTO;
+
+public interface AuditService {
+
+	AuditDTO createAudit(AuditDTO auditDTO);
+
+	AuditDTO getAuditById(Long id);
+
+}

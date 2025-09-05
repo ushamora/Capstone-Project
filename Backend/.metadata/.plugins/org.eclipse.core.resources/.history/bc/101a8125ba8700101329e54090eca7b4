@@ -1,0 +1,15 @@
+package com.wipro.archana.service;
+
+
+
+import com.wipro.archana.dto.AccountDTO;
+
+public interface AccountService {
+
+	AccountDTO saveAccount(AccountDTO accountDTO);
+
+	AccountDTO getAccountById(Long id);
+
+	
+
+}

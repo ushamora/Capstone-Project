@@ -1,0 +1,81 @@
+package com.wipro.archana.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wipro.archana.client.CustomerClient;
+import com.wipro.archana.dto.CustomerDTO;
+import com.wipro.archana.dto.FeedBackDTO;
+import com.wipro.archana.entities.FeedBack;
+import com.wipro.archana.repository.FeedBackRepository;
+
+@Service
+public class FeedBackServiceImpl implements FeedBackService {
+	@Autowired
+	private FeedBackRepository feedbackRepository;
+	@Autowired
+	private CustomerClient customerClient;
+	
+	@Override
+	public FeedBackDTO submitFeedback(FeedBackDTO feedbackDTO) {
+		CustomerDTO customer = customerClient.getCustomerById(feedbackDTO.getCustomerId());
+        if (customer == null) {
+            throw new RuntimeException("Invalid customerId: " + feedbackDTO.getCustomerId());
+        }
+
+        FeedBack feedback = FeedBack.builder()
+                .customerId(feedbackDTO.getCustomerId())
+                .type(feedbackDTO.getType())
+                .message(feedbackDTO.getMessage())
+                .submittedAt(LocalDateTime.now())
+                .status("OPEN")
+                .build();
+
+        FeedBack saved = feedbackRepository.save(feedback);
+        return toDTO(saved);
+	}
+	
+	
+	 private FeedBackDTO toDTO(FeedBack feedback) {
+	        return FeedBackDTO.builder()
+	                .id(feedback.getId())
+	                .customerId(feedback.getCustomerId())
+	                .type(feedback.getType())
+	                .message(feedback.getMessage())
+	                .submittedAt(feedback.getSubmittedAt())
+	                .status(feedback.getStatus())
+	                .build();
+	    }
+
+
+	 @Override
+	 public FeedBackDTO getFeedbackById(Long id) {
+		 FeedBack feedback = feedbackRepository.findById(id)
+	                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+	        return toDTO(feedback);
+	 }
+
+
+	 @Override
+	 public FeedBackDTO updateStatus(Long id, String status) {
+		 FeedBack feedback = feedbackRepository.findById(id)
+		            .orElseThrow(() -> new RuntimeException("Feedback not found"));
+
+		    // validate allowed statuses (optional but recommended)
+		    if (!status.equalsIgnoreCase("OPEN") &&
+		        !status.equalsIgnoreCase("IN_PROGRESS") &&
+		        !status.equalsIgnoreCase("RESOLVED") &&
+		        !status.equalsIgnoreCase("CLOSED")) {
+		        throw new IllegalArgumentException("Invalid status: " + status);
+		    }
+
+		    feedback.setStatus(status.toUpperCase());
+		    FeedBack updated = feedbackRepository.save(feedback);
+
+		    return toDTO(updated);
+	 }
+	 
+
+}
