@@ -1,0 +1,67 @@
+package com.wipro.usha.service;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wipro.usha.client.CustomerClient;
+import com.wipro.usha.dto.AccountDTO;
+import com.wipro.usha.dto.CustomerDTO;
+import com.wipro.usha.entities.Account;
+import com.wipro.usha.exp.AccountNotFoundException;
+import com.wipro.usha.repository.AccountRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AccountServiceImpl implements AccountService {
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	private final CustomerClient customerClient;
+
+	@Override
+	public AccountDTO saveAccount(AccountDTO accountDTO) {
+		 CustomerDTO customer = customerClient.getCustomerById(accountDTO.getCustomerId());
+	        if (customer == null) {
+	            throw new RuntimeException("Customer does not exist for ID " + accountDTO.getCustomerId());
+	        }
+
+	        Account account = Account.builder()
+	                .customerId(accountDTO.getCustomerId())
+	                .userName(accountDTO.getUserName())
+	                .panCardNum(accountDTO.getPanCardNum())
+	                .aadhaarCardNum(accountDTO.getAadhaarCardNum())
+	                .accountNumber(accountDTO.getAccountNumber())
+	                .accountType(accountDTO.getAccountType())
+	                .balance(accountDTO.getBalance())
+	                .loan(accountDTO.getLoan())
+	                .build();
+
+	        return convertToDTO(accountRepository.save(account));
+	    }
+	private AccountDTO convertToDTO(Account account) {
+        return AccountDTO.builder()
+                .id(account.getId())
+                .customerId(account.getCustomerId())
+                .userName(account.getUserName())
+                .panCardNum(account.getPanCardNum())
+                .aadhaarCardNum(account.getAadhaarCardNum())
+                .accountNumber(account.getAccountNumber())
+                .accountType(account.getAccountType())
+                .balance(account.getBalance())
+                .loan(account.getLoan())
+                .build();
+    }
+	@Override
+	public AccountDTO getAccountById(Long id) {
+		return accountRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with id " + id));
+    }
+	
+	
+
+}

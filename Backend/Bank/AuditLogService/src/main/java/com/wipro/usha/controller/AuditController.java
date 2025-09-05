@@ -1,0 +1,34 @@
+package com.wipro.usha.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wipro.usha.dto.AuditDTO;
+import com.wipro.usha.service.AuditService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+@RestController
+@RequestMapping("/api/audit")
+public class AuditController {
+	
+	@Autowired
+	public AuditService auditService;
+	
+	   @PostMapping("/createAudit")
+	    public AuditDTO createAudit(@RequestBody AuditDTO auditDTO) {
+	        return auditService.createAudit(auditDTO);
+	    }
+
+	    @GetMapping("/getAuditById/{id}")
+	    public AuditDTO getAuditById(@PathVariable Long id) {
+	        return auditService.getAuditById(id);
+	    }
+	
+	
+
+}

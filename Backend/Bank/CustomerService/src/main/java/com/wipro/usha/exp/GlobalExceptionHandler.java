@@ -1,0 +1,15 @@
+package com.wipro.usha.exp;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+	
+	public ResponseEntity<ErrorMessage>handleUserNotFoundException(CustomerNotFoundException ex){
+		ErrorMessage error=new ErrorMessage(ex.getMessage(),"CustomerNotFoundException");
+		return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+	}
+
+}

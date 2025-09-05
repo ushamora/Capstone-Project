@@ -1,0 +1,23 @@
+package com.wipro.usha.dto;
+
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AuditDTO {
+    private Long id;
+   
+    private String action;
+
+     private String description;
+    private LocalDateTime timestamp;
+    
+}
+

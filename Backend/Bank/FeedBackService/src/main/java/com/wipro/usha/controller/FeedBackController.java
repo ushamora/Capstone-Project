@@ -1,0 +1,39 @@
+package com.wipro.usha.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wipro.usha.dto.FeedBackDTO;
+import com.wipro.usha.service.FeedBackService;
+
+@RestController
+@RequestMapping("/api/feedback")
+public class FeedBackController {
+	
+	@Autowired
+	private FeedBackService feedbackService;
+	
+	@PostMapping("/submitform")
+    public FeedBackDTO submitFeedback(@RequestBody FeedBackDTO feedbackDTO) {
+        return feedbackService.submitFeedback(feedbackDTO);
+    }
+
+    @GetMapping("/getFeedback/{id}")
+    public FeedBackDTO getFeedbackById(@PathVariable Long id) {
+        return feedbackService.getFeedbackById(id);
+    }
+    @PutMapping("/updateStatus/{id}")
+    public FeedBackDTO updateStatus(
+                                     @PathVariable Long id,
+                                     @RequestParam String status) {
+        return feedbackService.updateStatus(id, status);
+    }
+
+}
